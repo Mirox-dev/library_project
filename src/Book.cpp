@@ -31,17 +31,19 @@ void Book::returnBook() {
     isAvailable = true;
 }
 void Book::displayInfo() const {
-    cout << "===== Info about book =====" << endl;
+    cout << "BOOK" << endl;
     cout << "Title: " << title << endl;
     cout << "Author: " << author << endl;
     cout << "Year: " << year << endl;
-    cout << "Isbn: " << isbn << endl;
+    cout << "ISBN: " << isbn << endl;
     if (!isAvailable) {
-        cout << "Book is not available to take" << endl;
-        cout << "Book borrowed by: " << borrowedBy << endl;
+        cout << "Available: " << "no" << endl;
+        cout << "Book borrowed by: " << borrowedBy <<  endl;
     }
     else {
-        cout << "Book is available to take" << endl;
+        cout << "Available: " << "yes" << endl;
+        cout << "Borrowed by: " << endl;
+        cout << "---Users---" << endl;
     }
 }
 
