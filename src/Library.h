@@ -16,7 +16,7 @@ class Library {
     vector<User> users;
     string dataFile;
     public:
-    Library(vector<Book> books, vector<User> users, const string &dataFile);
+    Library(vector<Book> books, vector<User>& users, const string &dataFile);
     void addBook(const Book& book) {books.push_back(book);}
     void addUser(const User& user) {users.push_back(user);}
     void BorrowBook(const string& userName, const string& isbn);

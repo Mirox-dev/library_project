@@ -5,43 +5,13 @@
 #include "Library.h"
 #include <fstream>
 #include <iostream>
+#include <utility>
 
 using namespace std;
 
-Library::Library(vector<Book> books, vector<User> users, const string &dataFile) : dataFile("../data/library_data.txt"), books(books), users(users) {
-    system("chcp 65001");  // Настройка консоли на UTF-8
-    ifstream file(dataFile);
-    if (!file.is_open()) {
-        throw std::runtime_error("Не удалось открыть файл");
-    }
-    string line;
-    while (getline(file, line)){
-        if (line == "BOOK") {
-            string t, a, is, string_y;
-            getline(file, line);
-            t = line.substr(line.find(':') + 2);
-            getline(file, line);
-            a = line.substr(line.find(':') + 2);
-            getline(file, line);
-            string_y = line.substr(line.find(':') + 2);
-            getline(file, line);
-            is = line.substr(line.find(':') + 2);
-            Book Newbook(t, a, stoi(string_y), is);
-            books.push_back(Newbook);
-        }
-        if (line == "USER") {
-            string n, id, maxBooks;
-            getline(file, line);
-            n = line.substr(line.find(':') + 2);
-            getline(file, line);
-            id = line.substr(line.find(':') + 2);
-            getline(file, line);
-            maxBooks = line.substr(line.find(':') + 2);
-            User Newuser(n, id, stoi(maxBooks));
-            users.push_back(Newuser);
-        }
-    }
-    file.close();
+Library::Library(vector<Book> books, vector<User>& users, const string &dataFile) :
+        books(std::move(books)), users(users), dataFile("../data/library_data.txt") {
+    loadFromFile();
 }
 void Library::BorrowBook(const string& userName, const string &isbn) {
     Book* book = findBookByISBN(isbn);
@@ -132,5 +102,37 @@ void Library::saveToFile() const{
     out.close();
 }
 void Library::loadFromFile() {
-
+    system("chcp 65001");  // Настройка консоли на UTF-8
+    ifstream file(dataFile);
+    if (!file.is_open()) {
+        throw std::runtime_error("Не удалось открыть файл");
+    }
+    string line;
+    while (getline(file, line)) {
+        if (line == "BOOK") {
+            string t, a, is, string_y;
+            getline(file, line);
+            t = line.substr(line.find(':') + 2);
+            getline(file, line);
+            a = line.substr(line.find(':') + 2);
+            getline(file, line);
+            string_y = line.substr(line.find(':') + 2);
+            getline(file, line);
+            is = line.substr(line.find(':') + 2);
+            Book Newbook(t, a, stoi(string_y), is);
+            books.push_back(Newbook);
+        }
+        if (line == "USER") {
+            string n, id, maxBooks;
+            getline(file, line);
+            n = line.substr(line.find(':') + 2);
+            getline(file, line);
+            id = line.substr(line.find(':') + 2);
+            getline(file, line);
+            maxBooks = line.substr(line.find(':') + 2);
+            User Newuser(n, id, stoi(maxBooks));
+            users.push_back(Newuser);
+        }
+    }
+    file.close();
 }
