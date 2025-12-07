@@ -22,6 +22,7 @@ void Book::BorrowBook(const std::string& userName) {
         throw invalid_argument("Book is not available");
     }
     borrowedBy = userName;
+    isAvailable = false;
     }
 void Book::returnBook() {
     if (isAvailable) {

@@ -42,9 +42,9 @@ void User::removeBook(const string& isbn) {
 }
 void User::displayProfile() const {
     cout << "USER" << endl;
-    cout << "Name" << name << endl;
-    cout << "UserId" << userId << endl;
-    cout << "BorrowedBooks";
+    cout << "Name: " << name << endl;
+    cout << "UserId: " << userId << endl;
+    cout << "BorrowedBooks: ";
     for (int i = 0; i < BorrowedBooks.size(); i++) {
         if (i != BorrowedBooks.size() - 1) {
             cout << BorrowedBooks[i] << " | ";

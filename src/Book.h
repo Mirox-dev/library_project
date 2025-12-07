@@ -32,7 +32,7 @@ public:
      [[nodiscard]] string getBorrowedBy() const { return borrowedBy; }
 
     void BorrowBook(const::string& userName);    // выдать книгу
-    void returnBook();    // вернуть книгу
+    void returnBook() ;    // вернуть книгу
     void displayInfo() const;    // вывести информацию о книге в консоль
 };
 
