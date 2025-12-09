@@ -15,11 +15,11 @@ class Library {
     vector<Book> books;
     vector<User> users;
     string dataFile;
-    public:
-    Library(vector<Book> books, vector<User>& users, const string &dataFile);
-    void addBook(const Book& book) {books.push_back(book);}
-    void addUser(const User& user) {users.push_back(user);}
-    void BorrowBook(const string& userName, const string& isbn);
+public:
+    Library(vector<Book> books, vector<User> users, string dataFile);
+    void addBook(const Book& book);
+    void addUser(const User& user);
+    void borrowBook(const string& userName, const string& isbn);
     void returnBook(const string& isbn);
     Book* findBookByISBN(const string& isbn);
     User* findUserByName(const string& name);
