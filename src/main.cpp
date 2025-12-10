@@ -170,8 +170,8 @@ int main() {
             }
             cout << endl;
         } while (!exit);
-    } catch (const runtime_error& e) {
-        cout << e.what() << endl;
+    } catch (const exception& e) {
+        cout << "llllll" << e.what() << endl;
     }
     return 0;
 }

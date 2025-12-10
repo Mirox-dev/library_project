@@ -1,53 +1,35 @@
 BOOK
 Title: Война и мир
-Author: Лев	Толстой
+Author: Лев Толстой
 Year: 1869
 ISBN: 978-5-17-70490-8
 Available: 0
-BorrowedBy: 
+BorrowedBy:  
 
 BOOK
-Title: Преступление и Наказание
-Author: Федор Достоевский
-Year: 1824
-ISBN: 978-3-16-148410-0
+Title: klukrebe
+Author: lkqnrf
+Year: 1476
+ISBN: 435
 Available: 0
-BorrowedBy: Иванов
-
-BOOK
-Title: Капитанская дочка
-Author: Александр Сергеевич Пушкин
-Year: 1822
-ISBN: 978-4-15-144-9
-Available: 0
-BorrowedBy: Иванов
-
-BOOK
-Title: Том Сойер
-Author: Редъярд Киплинг
-Year: 1642
-ISBN: 8378-2523-15-1
-Available: 0
-BorrowedBy: Иванов
-
-BOOK
-Title: м м м м
-Author: у у у у
-Year: 1555
-ISBN: 24r24
-Available: 1
-BorrowedBy: 
+BorrowedBy:  r
 
 ---USERS---
 USER
 Name: Иванов
 UserID: USR_001
-MaxBooks: 978
-BorrowedBooks: 3
+BorrowedBooks: 978-5-17-70490-8  |  978-3-16-148410-0
+MaxBooks: 3
 
 USER
-Name: lffl3
-UserID: ,f2f
+Name: r
+UserID: 2
+BorrowedBooks: 435
 MaxBooks: 3
+
+USER
+Name: q
+UserID: 12
 BorrowedBooks: 
+MaxBooks: 3
 

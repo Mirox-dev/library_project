@@ -107,8 +107,6 @@ void Library::saveToFile() const {
         out << "USER" << endl;
         out << "Name: " << user.getName() << endl;
         out << "UserID: " << user.getUserId() << endl;
-        out << "MaxBooks: " << user.getMaxBooksAllowed() << endl;
-
         const auto& borrowedBooks = user.getBorrowedBooks();
         if (!borrowedBooks.empty()) {
             out << "BorrowedBooks: ";
@@ -120,6 +118,7 @@ void Library::saveToFile() const {
         } else {
             out << "BorrowedBooks: " << endl;
         }
+        out << "MaxBooks: " << user.getMaxBooksAllowed() << endl;
         out << endl;
     }
     out.close();
@@ -143,7 +142,7 @@ void Library::loadFromFile() {
             getline(file, line); string_year = line.substr(line.find(':') + 2);
             getline(file, line); isbn = line.substr(line.find(':') + 2);
             getline(file, line); available = line.substr(line.find(':') + 2) == "true";
-            getline(file, line); borrowedBy = line.substr(line.find(':') + 2);
+            getline(file, line); borrowedBy = line.substr(line.find(':') + 1);
 
             Book newBook(title, author, stoi(string_year), isbn);
             if (!available) {
