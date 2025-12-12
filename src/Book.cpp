@@ -24,7 +24,7 @@ Book::Book() {
             this->year >= 1450 && 2025 >= this->year) {
             break;
         }
-        if (this->year <= 1450 && 2025 <= this->year) {
+        if (this->year <= 1450 || 2025 <= this->year) {
             cout << "Временные рамки не соотносятся!\n";
         }
         else {

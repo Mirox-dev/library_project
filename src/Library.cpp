@@ -157,7 +157,7 @@ void Library::loadFromFile() {
             getline(file, line); name = line.substr(line.find(':') + 2);
             getline(file, line); userId = line.substr(line.find(':') + 2);
             getline (file, line);
-            allID = stringstream(line.substr(line.find(':') + 2));
+            allID = stringstream(line.substr(line.find(':') + 1));
             while (getline(allID, line, '|')) {
                 borrowedBooks.push_back(line);
             }
