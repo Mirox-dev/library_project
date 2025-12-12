@@ -77,7 +77,7 @@ void User::addBook(const string& isbn) {
 }
 
 void User::removeBook(const string& isbn) {
-    for (size_t i = 0; i < borrowedBooks.size(); ++i) {
+    for (auto i = 0; i < borrowedBooks.size(); ++i) {
         if (borrowedBooks[i] == isbn) {
             borrowedBooks.erase(borrowedBooks.begin() + i);
             return;

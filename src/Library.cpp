@@ -141,7 +141,7 @@ void Library::loadFromFile() {
             getline(file, line); author = line.substr(line.find(':') + 2);
             getline(file, line); string_year = line.substr(line.find(':') + 2);
             getline(file, line); isbn = line.substr(line.find(':') + 2);
-            getline(file, line); available = line.substr(line.find(':') + 2) == "true";
+            getline(file, line); available = line.substr(line.find(':') + 2) == "yes";
             getline(file, line); borrowedBy = line.substr(line.find(':') + 1);
 
             Book newBook(title, author, stoi(string_year), isbn);

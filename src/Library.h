@@ -5,7 +5,6 @@
 #ifndef LIBRARY_PROJECT_LIBRARY_H
 #define LIBRARY_PROJECT_LIBRARY_H
 
-#include <iostream>
 #include <vector>
 #include "User.h"
 #include "Book.h"
