@@ -23,7 +23,7 @@ Book::Book() {
         if (istringstream iss(line); iss >> this->year && !(iss >> line) &&
             this->year >= 1450 && 2025 >= this->year) {
             break;
-        }
+            }
         if (this->year <= 1450 || 2025 <= this->year) {
             cout << "Временные рамки не соотносятся!\n";
         }
