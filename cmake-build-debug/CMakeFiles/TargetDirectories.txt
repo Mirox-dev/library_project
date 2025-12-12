@@ -1,0 +1,3 @@
+C:/Users/user/OneDrive/Рабочий стол/library_project/cmake-build-debug/CMakeFiles/library_project.dir
+C:/Users/user/OneDrive/Рабочий стол/library_project/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/user/OneDrive/Рабочий стол/library_project/cmake-build-debug/CMakeFiles/rebuild_cache.dir
