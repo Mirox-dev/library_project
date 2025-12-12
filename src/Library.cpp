@@ -5,133 +5,165 @@
 #include "Library.h"
 #include <fstream>
 #include <iostream>
+#include <stdexcept>
 #include <utility>
+#include <sstream>
 
 using namespace std;
 
-Library::Library(vector<Book> books, vector<User>& users, const string &dataFile) :
-        books(std::move(books)), users(users), dataFile("../data/library_data.txt") {
+Library::Library(vector<Book> books, vector<User> users, string  dataFile)
+    : books(std::move(books)), users(std::move(users)), dataFile(std::move(dataFile)) {
     loadFromFile();
 }
-void Library::BorrowBook(const string& userName, const string &isbn) {
+
+void Library::addBook(const Book& book) {
+    books.push_back(book);
+    cout << "Книга добавлена в библиотеку!" << endl;
+}
+
+void Library::addUser(const User& user) {
+    users.push_back(user);
+    cout << "Пользователь зарегистрирован!" << endl;
+}
+
+void Library::borrowBook(const string& userName, const string& isbn) {
     Book* book = findBookByISBN(isbn);
     User* user = findUserByName(userName);
-    if (book == nullptr || user == nullptr) {
-        throw runtime_error("Не удалось найти книгу или пользователя");
-    }
     user->addBook(isbn);
-    book->BorrowBook(userName);
+    book->borrowBook(userName);
+    cout << "Книга '" << isbn << "' выдана пользователю '" << userName << "'" << endl;
 }
-void Library::returnBook(const string &isbn) {
+
+void Library::returnBook(const string& isbn) {
     Book* book = findBookByISBN(isbn);
-    const string userBorrowedByName = book->getBorrowedBy();
+    const string userName = book->getBorrowedBy();
     book->returnBook();
-    User* user = findUserByName(userBorrowedByName);
+    User* user = findUserByName(userName);
     user->removeBook(isbn);
+
+    cout << "Книга '" << isbn << "' возвращена пользователем '" << userName << "'" << endl;
 }
-Book* Library::findBookByISBN(const string &isbn) {
-    for (auto & book : books) {
-        if (isbn == book.getIsbn()) {
+
+Book* Library::findBookByISBN(const string& isbn) {
+    for (auto& book : books) {
+        if (book.getIsbn() == isbn) {
             return &book;
         }
     }
-    throw runtime_error("Книга не найдена");
+    throw logic_error("Книга с ISBN '" + isbn + "' не найдена");
 }
-User* Library::findUserByName(const string &userName) {
-    for (auto & user : users) {
-        if (user.getName() == userName) {
+
+User* Library::findUserByName(const string& name) {
+    for (auto& user : users) {
+        if (user.getName() == name) {
             return &user;
         }
     }
-    throw runtime_error("Пользователь не найден");
+    throw logic_error("Пользователь '" + name + "' не найден");
 }
+
 void Library::displayAllBooks() const {
-    cout << "ALL BOOKS" << endl;
-    for (auto & book : books) {
-        book.displayInfo();
-    }
-}
-void Library::displayAllUsers() const {
-    cout << "ALL USERS" << endl;
-    for (auto & user : users) {
-        user.displayProfile();
-    }
-}
-void Library::saveToFile() const{
-    ifstream file(dataFile);
-    string line;
-    string oldFile;
-    while (true) {
-        getline(file, line);
-        if (line == "---USERS---\n") {
-            break;
+    cout << "\n=== ВСЕ КНИГИ ===" << endl;
+    if (books.empty()) {
+        cout << "Книг нет" << endl;
+    } else {
+        for (const auto& book : books) {
+            book.displayInfo();
         }
     }
-    while (getline(file, line)) {
-        oldFile += line;
+}
+
+void Library::displayAllUsers() const {
+    cout << "\n=== ВСЕ ПОЛЬЗОВАТЕЛИ ===" << endl;
+    if (users.empty()) {
+        cout << "Пользователей нет" << endl;
+    } else {
+        for (const auto& user : users) {
+            user.displayProfile();
+        }
     }
-    file.close();
+}
+
+void Library::saveToFile() const {
     ofstream out(dataFile);
-    if (!out.is_open())
-        throw runtime_error("Не удалось открыть файл");
-    for (auto & book : books) {
-        out << "BOOK" << endl
-        << "Title: " << book.getTitle() << endl
-        << "Author: " << book.getAuthor() << endl
-        << "Year" << book.getYear() << endl
-        << "ISBN: " << book.getIsbn() << endl
-        << "Available: " << book.getIsAvailable() << endl
-        << "BorrowedBy: " << book.getBorrowedBy() << endl;
+    if (!out.is_open()) {
+        cout << "Не удаётся открыть файл для записи, создаётся новый файл";
     }
+
+    // Сохранение книг
+    for (const auto& book : books) {
+        out << "BOOK" << endl;
+        out << "Title: " << book.getTitle() << endl;
+        out << "Author: " << book.getAuthor() << endl;
+        out << "Year: " << book.getYear() << endl;
+        out << "ISBN: " << book.getIsbn() << endl;
+        out << "Available: " << book.getIsAvailable() << endl;
+        out << "BorrowedBy: " << book.getBorrowedBy() << endl << endl;
+    }
+
+    // Сохранение пользователей
     out << "---USERS---" << endl;
-    for (auto & user : users) {
-        out << endl << "USER" << endl
-        << "Name: " << user.getName() << endl
-        << "UserID: " << user.getUserId() << endl
-        << "BorrowedBooks: ";
-        for (int i = 0; i != user.getBorrowedBooks().size(); ++i) {
-            if (i != user.getBorrowedBooks().size() - 1) {
-                out << user.getBorrowedBooks()[i] << '|';
+    for (const auto& user : users) {
+        out << "USER" << endl;
+        out << "Name: " << user.getName() << endl;
+        out << "UserID: " << user.getUserId() << endl;
+        const auto& borrowedBooks = user.getBorrowedBooks();
+        if (!borrowedBooks.empty()) {
+            out << "BorrowedBooks: ";
+            for (size_t i = 0; i < borrowedBooks.size(); ++i) {
+                out << borrowedBooks[i];
+                if (i < borrowedBooks.size() - 1) out << " | ";
             }
-            else {
-                out << user.getBorrowedBooks()[i] << endl;
-            }
+            out << endl;
+        } else {
+            out << "BorrowedBooks: " << endl;
         }
         out << "MaxBooks: " << user.getMaxBooksAllowed() << endl;
+        out << endl;
     }
     out.close();
+    cout << "Данные сохранены в файл: " << dataFile << endl;
 }
+
 void Library::loadFromFile() {
-    system("chcp 65001");  // Настройка консоли на UTF-8
     ifstream file(dataFile);
     if (!file.is_open()) {
-        throw std::runtime_error("Не удалось открыть файл");
+        cout << "Файл не найден, создаётся пустой файл: " << dataFile << endl;
+        return;
     }
     string line;
     while (getline(file, line)) {
         if (line == "BOOK") {
-            string t, a, is, string_y;
-            getline(file, line);
-            t = line.substr(line.find(':') + 2);
-            getline(file, line);
-            a = line.substr(line.find(':') + 2);
-            getline(file, line);
-            string_y = line.substr(line.find(':') + 2);
-            getline(file, line);
-            is = line.substr(line.find(':') + 2);
-            Book Newbook(t, a, stoi(string_y), is);
-            books.push_back(Newbook);
+            string title, author, string_year, isbn;
+            bool available;
+            string borrowedBy;
+            getline(file, line); title = line.substr(line.find(':') + 2);
+            getline(file, line); author = line.substr(line.find(':') + 2);
+            getline(file, line); string_year = line.substr(line.find(':') + 2);
+            getline(file, line); isbn = line.substr(line.find(':') + 2);
+            getline(file, line); available = line.substr(line.find(':') + 2) == "true";
+            getline(file, line); borrowedBy = line.substr(line.find(':') + 1);
+
+            Book newBook(title, author, stoi(string_year), isbn);
+            if (!available) {
+                newBook.borrowBook(borrowedBy);
+            }
+            books.push_back(newBook);
         }
-        if (line == "USER") {
-            string n, id, maxBooks;
-            getline(file, line);
-            n = line.substr(line.find(':') + 2);
-            getline(file, line);
-            id = line.substr(line.find(':') + 2);
-            getline(file, line);
-            maxBooks = line.substr(line.find(':') + 2);
-            User Newuser(n, id, stoi(maxBooks));
-            users.push_back(Newuser);
+        else if (line == "USER") {
+            string name, userId, maxBooksStr;
+            stringstream allID;
+            vector<string> borrowedBooks;
+            getline(file, line); name = line.substr(line.find(':') + 2);
+            getline(file, line); userId = line.substr(line.find(':') + 2);
+            getline (file, line);
+            allID = stringstream(line.substr(line.find(':') + 1));
+            while (getline(allID, line, '|')) {
+                borrowedBooks.push_back(line);
+            }
+            getline(file, line); maxBooksStr = line.substr(line.find(':') + 2);
+            User newUser(name, userId, stoi(maxBooksStr), borrowedBooks);
+            users.push_back(newUser);
         }
     }
     file.close();
