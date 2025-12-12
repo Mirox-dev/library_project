@@ -11,28 +11,28 @@ using namespace std;
 
 Book::Book() {
     string line;
-    cout << "Введите название книги: ";
+    cout << "\nВведите название книги: ";
     getline(cin, this->title);
 
-    cout << "Введите автора книги: ";
+    cout << "\nВведите автора книги: ";
     getline(cin, this->author);
 
     do {
-        cout << "Введите год издания книги: ";
+        cout << "\nВведите год издания книги: ";
         getline(cin, line);
         if (istringstream iss(line); iss >> this->year && !(iss >> line) &&
             this->year >= 1450 && 2025 >= this->year) {
             break;
             }
         if (this->year <= 1450 || 2025 <= this->year) {
-            cout << "Временные рамки не соотносятся!\n";
+            cout << "\nВременные рамки не соотносятся!";
         }
         else {
-            cout << "Неправильный ввод года!\n";
+            cout << "\nНеправильный ввод года!";
         }
     }while (true);
 
-    cout << "Введите номер ISBN: ";
+    cout << "\nВведите номер ISBN: ";
     getline(cin, this->isbn);
     cout << endl;
 }
@@ -42,13 +42,20 @@ Book::Book(string title, string author, const int year, string isbn)
       year(year), isbn(std::move(isbn)) {
 
     if (!(1450 <= year && year <= 2025)) {
-        throw invalid_argument("Временные рамки не соотносятся!");
+        throw invalid_argument("\nВременные рамки книги в файле не соотносятся!");
     }
 }
 
+string Book::getTitle() const { return title; }
+string Book::getAuthor() const { return author; }
+int Book::getYear() const { return year; }
+string Book::getIsbn() const { return isbn; }
+bool Book::getIsAvailable() const { return isAvailable; }
+string Book::getBorrowedBy() const { return borrowedBy; }
+
 void Book::borrowBook(const string& userName) {
     if (!isAvailable) {
-        throw logic_error("Книга недоступна (уже выдана)");
+        throw logic_error("\nКнига недоступна (уже выдана)");
     }
     borrowedBy = userName;
     isAvailable = false;
@@ -56,24 +63,24 @@ void Book::borrowBook(const string& userName) {
 
 void Book::returnBook() {
     if (isAvailable) {
-        throw logic_error("Книга уже возвращена");
+        throw logic_error("\nКнига уже возвращена");
     }
     borrowedBy = "";
     isAvailable = true;
 }
 
 void Book::displayInfo() const {
-    cout << "\nBOOK" << endl;
-    cout << "Title: " << title << endl;
-    cout << "Author: " << author << endl;
-    cout << "Year: " << year << endl;
-    cout << "ISBN: " << isbn << endl;
+    cout << "\nBOOK";
+    cout << "\nTitle: " << title;
+    cout << "\nAuthor: " << author;
+    cout << "\nYear: " << year;
+    cout << "\nISBN: " << isbn;
     if (!isAvailable) {
-        cout << "Available: " << "no" << endl;
-        cout << "Book borrowed by: " << borrowedBy <<  endl;
+        cout << "\nAvailable: " << "no";
+        cout << "\nBook borrowed by: " << borrowedBy;
     }
     else {
-        cout << "Available: yes" << endl;
-        cout << "Borrowed by: " << endl;
+        cout << "\nAvailable: yes";
+        cout << "\nBorrowed by: " << endl;
     }
 }

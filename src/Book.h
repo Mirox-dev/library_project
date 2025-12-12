@@ -18,16 +18,16 @@ class Book {
     string borrowedBy;      // Фамилия пользователя, взявшего книгу
 
 public:
-    Book();                                    // Конструктор по умолчанию
-    Book(string title, string author, int year, string isbn);
+    Book();                                                   // Конструктор для ручного добавления книги
+    Book(string title, string author, int year, string isbn); // Конструктор для считывания из файла
 
-    // Геттеры
-    [[nodiscard]] string getTitle() const { return title; }
-    [[nodiscard]] string getAuthor() const { return author; }
-    [[nodiscard]] int getYear() const { return year; }
-    [[nodiscard]] string getIsbn() const { return isbn; }
-    [[nodiscard]] bool getIsAvailable() const { return isAvailable; }
-    [[nodiscard]] string getBorrowedBy() const { return borrowedBy; }
+    // Геттер-методы(nodiscard чтобы геттер метод ТОЧНО использовался, а не вызывался впустую)
+    [[nodiscard]] string getTitle() const;
+    [[nodiscard]] string getAuthor() const;
+    [[nodiscard]] int getYear() const;
+    [[nodiscard]] string getIsbn() const;
+    [[nodiscard]] bool getIsAvailable() const;
+    [[nodiscard]] string getBorrowedBy() const;
 
     void borrowBook(const string& userName);   // Выдать книгу
     void returnBook();                         // Вернуть книгу

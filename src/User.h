@@ -12,17 +12,19 @@ using namespace std;
 
 class User {
     string name;                    // Фамилия пользователя
-    string userId;                  // Уникальный ID (вида "USR_001")
+    string userId;                  // Уникальный ID
     vector<string> borrowedBooks;   // Список ISBN выданных книг
     int maxBooksAllowed = 3;        // Максимум книг, которые можно взять (по умолчанию 3)
 public:
-    User();
-    User(string name, string userId, int maxBooksAllowed, vector<string>& borrowedBooks);
+    User();              // Конструктор для ручного добавления пользователя
+    User(string name, string userId, int maxBooksAllowed, vector<string>& borrowedBooks); // Конструктор для считывания с файла
 
-    [[nodiscard]] string getName() const { return name; }
-    [[nodiscard]] string getUserId() const { return userId; }
-    [[nodiscard]] vector<string> getBorrowedBooks() const { return borrowedBooks; }
-    [[nodiscard]] int getMaxBooksAllowed() const { return maxBooksAllowed; }
+    // Геттер-методы
+
+    [[nodiscard]] string getName() const;
+    [[nodiscard]] string getUserId() const;
+    [[nodiscard]] vector<string> getBorrowedBooks() const;
+    [[nodiscard]] int getMaxBooksAllowed() const;
 
     [[nodiscard]] bool canBorrowMore() const;       // Можно ли взять ещё книгу
     void addBook(const string& isbn);               // Добавить книгу в список взятых

@@ -11,21 +11,21 @@
 
 
 class Library {
-    vector<Book> books;
-    vector<User> users;
-    string dataFile;
+    vector<Book> books;    // Массив всех книг
+    vector<User> users;    // Массив всех пользователей
+    string dataFile;       // Указание пути к файлу library_data.txt
 public:
-    Library(vector<Book> books, vector<User> users, string dataFile);
-    void addBook(const Book& book);
-    void addUser(const User& user);
-    void borrowBook(const string& userName, const string& isbn);
-    void returnBook(const string& isbn);
-    Book* findBookByISBN(const string& isbn);
-    User* findUserByName(const string& name);
-    void displayAllBooks() const;
-    void displayAllUsers() const;
-    void saveToFile() const;
-    void loadFromFile();
+    Library(vector<Book> books, vector<User> users, string dataFile);    // Конструктор
+    void addBook(const Book& book);    // Добавить книгу
+    void addUser(const User& user);    // Добавить пользователя
+    void borrowBook(const string& userName, const string& isbn);    // Взять книгу
+    void returnBook(const string& isbn);    // Вернуть книгу
+    Book* findBookByISBN(const string& isbn);    // Найти книгу по isbn
+    User* findUserByName(const string& name);    // Найти пользователя по имени
+    void displayAllBooks() const;    // Показать все книги
+    void displayAllUsers() const;    // Показать всех пользователей
+    void saveToFile() const;    // Загрузить все данные в файл
+    void loadFromFile();    // Выгрузить все данные из файла
 };
 
 

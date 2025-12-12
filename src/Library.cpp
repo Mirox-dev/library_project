@@ -13,7 +13,13 @@ using namespace std;
 
 Library::Library(vector<Book> books, vector<User> users, string  dataFile)
     : books(std::move(books)), users(std::move(users)), dataFile(std::move(dataFile)) {
-    loadFromFile();
+    // Если в файле неправильно введены данные, то принудительно завершаю программу
+    try {
+        loadFromFile();
+    }catch (const exception& e) {
+        cout << "Ошибка: " << e.what();
+        exit(1);
+    }
 }
 
 void Library::addBook(const Book& book) {
@@ -31,7 +37,7 @@ void Library::borrowBook(const string& userName, const string& isbn) {
     User* user = findUserByName(userName);
     user->addBook(isbn);
     book->borrowBook(userName);
-    cout << "Книга '" << isbn << "' выдана пользователю '" << userName << "'" << endl;
+    cout << "Книга " << isbn << " выдана пользователю " << userName << endl;
 }
 
 void Library::returnBook(const string& isbn) {
@@ -40,8 +46,7 @@ void Library::returnBook(const string& isbn) {
     book->returnBook();
     User* user = findUserByName(userName);
     user->removeBook(isbn);
-
-    cout << "Книга '" << isbn << "' возвращена пользователем '" << userName << "'" << endl;
+    cout << "Книга " << isbn << " возвращена пользователем " << userName << endl;
 }
 
 Book* Library::findBookByISBN(const string& isbn) {
@@ -89,19 +94,25 @@ void Library::saveToFile() const {
     if (!out.is_open()) {
         cout << "Не удаётся открыть файл для записи, создаётся новый файл";
     }
-
-    // Сохранение книг
     for (const auto& book : books) {
         out << "BOOK" << endl;
         out << "Title: " << book.getTitle() << endl;
         out << "Author: " << book.getAuthor() << endl;
         out << "Year: " << book.getYear() << endl;
         out << "ISBN: " << book.getIsbn() << endl;
-        out << "Available: " << book.getIsAvailable() << endl;
+        out << "Available: ";
+        switch (book.getIsAvailable()) {
+            case 1: {
+                out << "yes" << endl;
+                break;
+            }
+            case 0: {
+                out << "no" << endl;
+                break;
+            }
+        }
         out << "BorrowedBy: " << book.getBorrowedBy() << endl << endl;
     }
-
-    // Сохранение пользователей
     out << "---USERS---" << endl;
     for (const auto& user : users) {
         out << "USER" << endl;
