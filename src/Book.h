@@ -35,3 +35,4 @@ public:
 };
 
 #endif // LIBRARY_PROJECT_BOOK_H
+

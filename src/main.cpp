@@ -68,7 +68,7 @@ int main() {
                 break;
             }
             case 5: {
-                cout << "\nВведите фамилию пользователя: ";
+                cout << "\nВведите ID пользователя: ";
                 string name;
                 do {
                     getline(cin, line);
@@ -76,7 +76,7 @@ int main() {
                     if (iss >> name && !(iss >> line)) {
                         break;
                     }
-                    cout << "\nНеверный ввод! Введите фамилию ещё раз: ";
+                    cout << "\nНеверный ввод! Введите ID ещё раз: ";
                 }while (true);
 
                 cout << "\nВведите ISBN книги, которую хотите выдать: ";

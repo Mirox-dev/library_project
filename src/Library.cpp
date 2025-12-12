@@ -179,3 +179,4 @@ void Library::loadFromFile() {
     }
     file.close();
 }
+
