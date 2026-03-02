@@ -120,9 +120,77 @@ library_project/
 
 ## Особенности
 
+- **Инкапсуляция:** все данные приватные, доступ через методы
+- **Валидация:** проверка корректности ввода данных
+- **Обработка ошибок:** использование исключений
+- **Работа с файлами:** сохранение и загрузка состояния
+- **Консольный интерфейс:** интерактивное меню с проверкой ввода
 
-Инкапсуляция: все данные приватные, доступ через методы
-Валидация: проверка корректности ввода данных
-Обработка ошибок: использование исключений
-Работа с файлами: сохранение и загрузка состояния
-Консольный интерфейс: интерактивное меню с проверкой ввода
+---
+
+# library_project — Personal Library Management System
+
+*[Русский](#выше) | English*
+
+## Description
+
+A console application for managing a book collection with user registration, book lending and returns. Demonstrates OOP principles in C++: encapsulation, exception handling, and file persistence.
+
+## Requirements
+
+- **C++17** or higher
+- **CMake 4.0** or higher
+- Compiler: GCC, Clang, or MSVC
+
+## Build Instructions
+
+```bash
+git clone <repository-url>
+cd library_project
+mkdir build && cd build
+cmake ..
+make
+./library_project
+```
+
+## Usage
+
+```
+=== LIBRARY ===
+1. View all books
+2. View all users
+3. Add a new book
+4. Register a user
+5. Lend a book to a user
+6. Return a book from a user
+7. Search book by ISBN
+8. View user profile
+9. Save data to file
+10. Exit
+```
+
+## Project Structure
+
+```
+library_project/
+├── src/
+│   ├── Book.h / Book.cpp       # Book class
+│   ├── User.h / User.cpp       # User class
+│   ├── Library.h / Library.cpp # Library class
+│   └── main.cpp                # Entry point and menu
+├── data/
+│   └── library_data.txt        # Persistent storage
+├── CMakeLists.txt
+└── README.md
+```
+
+## Components
+
+### Book
+Stores title, author, publication year (1450–2025), ISBN, and availability status. Provides borrow/return methods.
+
+### User
+Stores name, ID, and list of borrowed books. Enforces a configurable borrow limit.
+
+### Library
+Central manager for the book catalog and user list. Supports search by ISBN/name, file save/load.
